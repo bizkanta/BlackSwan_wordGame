@@ -3,6 +3,8 @@
 angular.module('wordGame', ['ui.router'])
   .controller('MainCtrl', ['$scope', 'GameService', function($scope, gameService) {
 
+    gameService.loadGame();
+
     $scope.saveWord = function(word) {
       var isSaved = gameService.isAlreadySaved(word);
       var isInDict = gameService.isInDictionary(word);
@@ -11,6 +13,7 @@ angular.module('wordGame', ['ui.router'])
         gameService.highscores.push({word: word, score: score});
         $scope.newWord = '';
         $scope.error = null;
+        gameService.saveGame();
       } else if (!isInDict) {
         $scope.error = 'word is not in dictionary';
       } else if (isSaved) {
@@ -18,15 +21,15 @@ angular.module('wordGame', ['ui.router'])
       }
     }
   }])
+
   .controller('HighscoresCtrl', ['$scope', 'GameService', function($scope, gameService) {
+    gameService.loadGame();
+
     $scope.highscores = gameService.highscores;
   }])
-  .service('GameService', [function() {
-    this.highscores = [
-      {word: 'kamu', score: 4},
-      {word: 'kamu', score: 4},
-      {word: 'kamu', score: 4}
-    ];
+
+  .service('GameService', ['GameSavingService', function(gameSavingService) {
+    this.highscores = [];
     this.dictionary = ["ability","able","aboard","about","above","accept","accident","according"];
 
     this.isInDictionary = function(word) {
@@ -41,7 +44,7 @@ angular.module('wordGame', ['ui.router'])
 
     this.getScore = function(word) {
       return this.countUniqueLetters(word);
-    }
+    };
 
     this.countUniqueLetters = function(word) {
       Object.size = function(obj) {
@@ -60,8 +63,27 @@ angular.module('wordGame', ['ui.router'])
         letters[letter] = (isNaN(letters[letter]) ? 1 : letters[letter] + 1);
       }
       return Object.size(letters);
-    }
+    };
+
+    this.saveGame = function() {
+      gameSavingService.saveGame(this.highscores);
+    };
+
+    this.loadGame = function() {
+      this.highscores = gameSavingService.loadGame() || [];
+    };
   }])
+
+  .service('GameSavingService', [function() {
+    this.saveGame = function(highscores) {
+      localStorage.setItem('wordGame', JSON.stringify(highscores));
+    };
+
+    this.loadGame = function() {
+      return JSON.parse(localStorage.getItem('wordGame'));
+    };
+  }])
+
   .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
     $stateProvider
