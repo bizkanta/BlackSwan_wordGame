@@ -6,13 +6,15 @@ angular.module('wordGame', ['ui.router'])
     gameService.loadGame();
 
     $scope.saveWord = function(word) {
+      $scope.notification = null;
       var isSaved = gameService.isAlreadySaved(word);
       var isInDict = gameService.isInDictionary(word);
       if (isInDict && !isSaved) {
         var score = gameService.getScore(word);
         gameService.highscores.push({word: word, score: score});
-        $scope.newWord = '';
+        $scope.notification = $scope.newWord + ' is valid, good job! You get ' + score + ' for this word!'
         $scope.error = null;
+        $scope.newWord = '';
         gameService.saveGame();
       } else if (!isInDict) {
         $scope.error = 'word is not in dictionary';
@@ -28,9 +30,16 @@ angular.module('wordGame', ['ui.router'])
     $scope.highscores = gameService.highscores;
   }])
 
-  .service('GameService', ['GameSavingService', function(gameSavingService) {
+  .service('GameService', ['$http', 'GameSavingService', function($http, gameSavingService) {
     this.highscores = [];
-    this.dictionary = ["ability","able","aboard","about","above","accept","accident","according"];
+    this.dictionary = [];
+    var self = this;
+
+    $http.get('dictionary.json').then(function(response) {
+        self.dictionary = response.data;
+      }).catch(function(err) {
+        console.log(err);
+      });
 
     this.isInDictionary = function(word) {
       return this.dictionary.indexOf(word) >= 0;
