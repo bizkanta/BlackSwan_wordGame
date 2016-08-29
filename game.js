@@ -3,14 +3,12 @@
 angular.module('wordGame', ['ui.router'])
   .controller('MainCtrl', ['$scope', 'GameService', function($scope, gameService) {
 
-    $scope.highScores = gameService.highScores;
-
     $scope.saveWord = function(word) {
       var isSaved = gameService.isAlreadySaved(word);
       var isInDict = gameService.isInDictionary(word);
       if (isInDict && !isSaved) {
         var score = gameService.getScore(word);
-        gameService.highScores.push({word: word, score: score});
+        gameService.highscores.push({word: word, score: score});
         $scope.newWord = '';
         $scope.error = null;
       } else if (!isInDict) {
@@ -20,8 +18,11 @@ angular.module('wordGame', ['ui.router'])
       }
     }
   }])
+  .controller('HighscoresCtrl', ['$scope', 'GameService', function($scope, gameService) {
+    $scope.highscores = gameService.highscores;
+  }])
   .service('GameService', [function() {
-    this.highScores = [];
+    this.highscores = [];
     this.dictionary = ["ability","able","aboard","about","above","accept","accident","according"];
 
     this.isInDictionary = function(word) {
@@ -29,7 +30,7 @@ angular.module('wordGame', ['ui.router'])
     };
 
     this.isAlreadySaved = function(newWord) {
-      return this.highScores.some(function(item) {
+      return this.highscores.some(function(item) {
         return item.word === newWord;
       });
     };
@@ -68,8 +69,6 @@ angular.module('wordGame', ['ui.router'])
       .state('highscores', {
         url: '/highscores',
         templateUrl: './templates/highscores.html',
-        controller: function($scope) {
-          $scope.title = 'Highscores';
-        }
+        controller: 'HighscoresCtrl'
       })
   }]);
