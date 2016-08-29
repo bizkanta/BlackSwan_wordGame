@@ -1,29 +1,51 @@
 'use strict';
 
 angular.module('wordGame', [])
-  .controller('GameCtrl', ['$scope', function($scope) {
-    $scope.dictionary = ["ability","able","aboard","about","above","accept","accident","according"];
+  .controller('GameCtrl', ['$scope', 'GameService', function($scope, gameService) {
 
-    $scope.newWords = [];
+    $scope.highScores = gameService.highScores;
 
-    function isInDictionary(word) {
-      return $scope.dictionary.indexOf(word) >= 0;
+    $scope.saveWord = function(word) {
+      var isSaved = gameService.isAlreadySaved(word);
+      var isInDict = gameService.isInDictionary(word);
+      if (isInDict && !isSaved) {
+        var score = gameService.getScore(word);
+        gameService.highScores.push({word: word, score: score});
+        $scope.newWord = '';
+        $scope.error = null;
+      } else if (!isInDict) {
+        $scope.error = 'word is not in dictionary';
+      } else if (isSaved) {
+        $scope.error = 'you already have found this word';
+      }
     }
+  }])
+  .service('GameService', [function() {
+    this.highScores = [];
+    this.dictionary = ["ability","able","aboard","about","above","accept","accident","according"];
 
-    function isInNewWords(newWord) {
-      return $scope.newWords.some(function(item) {
+    this.isInDictionary = function(word) {
+      return this.dictionary.indexOf(word) >= 0;
+    };
+
+    this.isAlreadySaved = function(newWord) {
+      return this.highScores.some(function(item) {
         return item.word === newWord;
       });
+    };
+
+    this.getScore = function(word) {
+      return this.countUniqueLetters(word);
     }
 
-    function countUniqueLetters(word) {
+    this.countUniqueLetters = function(word) {
       Object.size = function(obj) {
-    	var size = 0;
-    	for(var key in obj) {
-    		if(obj.hasOwnProperty(key)) {
+      var size = 0;
+      for(var key in obj) {
+        if(obj.hasOwnProperty(key)) {
           size++;
         }
-    	}
+      }
       return size;
       }
 
@@ -33,17 +55,5 @@ angular.module('wordGame', [])
         letters[letter] = (isNaN(letters[letter]) ? 1 : letters[letter] + 1);
       }
       return Object.size(letters);
-    }
-
-    $scope.saveWord = function(word) {
-      if (isInDictionary(word) && !isInNewWords(word)) {
-        var letters = countUniqueLetters(word);
-        $scope.newWords.push({word: word, score: letters});
-        $scope.newWord = '';
-      } else if (!isInDictionary(word)){
-        $scope.error = 'word is not in dictionary';
-      } else if (isInNewWords(word)) {
-        $scope.error = 'you already have found this word';
-      }
     }
   }]);
