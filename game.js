@@ -22,7 +22,11 @@ angular.module('wordGame', ['ui.router'])
     $scope.highscores = gameService.highscores;
   }])
   .service('GameService', [function() {
-    this.highscores = [];
+    this.highscores = [
+      {word: 'kamu', score: 4},
+      {word: 'kamu', score: 4},
+      {word: 'kamu', score: 4}
+    ];
     this.dictionary = ["ability","able","aboard","about","above","accept","accident","according"];
 
     this.isInDictionary = function(word) {

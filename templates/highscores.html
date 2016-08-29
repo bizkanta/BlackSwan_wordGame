@@ -1,3 +1,12 @@
 <h1>Highscores</h1>
-<div>{{highscores}}</div>
+<table>
+  <tr>
+    <th>Word</th>
+    <th>Score</th>
+  </tr>
+  <tr ng-repeat="item in highscores">
+    <td>{{item.word}}</td>
+    <td>{{item.score}}</td>
+  </tr>
+</table>
 <a ui-sref="mainpage">Back to main page</a>
