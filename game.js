@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('wordGame', [])
-  .controller('GameCtrl', ['$scope', 'GameService', function($scope, gameService) {
+angular.module('wordGame', ['ui.router'])
+  .controller('MainCtrl', ['$scope', 'GameService', function($scope, gameService) {
 
     $scope.highScores = gameService.highScores;
 
@@ -56,4 +56,20 @@ angular.module('wordGame', [])
       }
       return Object.size(letters);
     }
+  }])
+  .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/');
+    $stateProvider
+      .state('mainpage', {
+        url: '/',
+        templateUrl: './templates/main.html',
+        controller: 'MainCtrl'
+      })
+      .state('highscores', {
+        url: '/highscores',
+        templateUrl: './templates/highscores.html',
+        controller: function($scope) {
+          $scope.title = 'Highscores';
+        }
+      })
   }]);

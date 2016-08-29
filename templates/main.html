@@ -1,0 +1,12 @@
+<div>
+  <h1>Word Game</h1>
+  <form>
+    <label>
+      Please type a word here:
+      <input ng-model="newWord" type="text" placeholder="add new word" required>
+    </label>
+    <button ng-click="saveWord(newWord)">Add word</button>
+  </form>
+  <div>{{error}}</div>
+  <a ui-sref="highscores">Check highscores</a>
+</div>
