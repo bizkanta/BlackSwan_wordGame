@@ -8,4 +8,8 @@ app.service('GameSavingService', [function() {
   this.loadGame = function() {
     return JSON.parse(localStorage.getItem('wordGame'));
   };
+
+  this.clearGame = function() {
+    return localStorage.clear();
+  };
 }])

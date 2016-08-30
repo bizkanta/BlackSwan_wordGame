@@ -1,7 +1,17 @@
-table {
-  border-collapse: collapse;
+.main-wrapper {
+  text-align: center;
 }
 
-td, th {
-  border: 1px solid black;
+.highscores-wrapper {
+  text-align: center;
+}
+
+.table {
+  max-width: 30%;
+  margin: 0 auto;
+}
+
+.score {
+  width: 70px;
+  text-align: center;
 }
