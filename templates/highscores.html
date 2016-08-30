@@ -1,19 +1,17 @@
-<div class="highscores-wrapper">
+<div class="wrapper">
   <h1>Highscores</h1>
   <table class="table table-bordered">
     <tr>
-      <th>Word</th>
-      <th class="score">Score</th>
+      <th class="thead">Word</th>
+      <th class="thead">Score</th>
     </tr>
     <tr ng-repeat="item in highscores">
       <td>{{item.word}}</td>
       <td class="score">{{item.score}}</td>
     </tr>
   </table>
-  <div>
-    <a ui-sref="mainpage">Back to main page</a>
-  </div>
-  <div>
-    <a ng-click="clearBoard()" href="">clear board</a>
+  <div class="buttons">
+    <a ui-sref="mainpage" class="btn btn-default btn-lg active">Back to main page</a>
+    <a ng-click="clearBoard()" href="" class="btn btn-default btn-lg active">Clear board</a>
   </div>
 </div>

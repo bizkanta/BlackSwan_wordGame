@@ -1,12 +1,12 @@
-<div class="main-wrapper">
-  <h1>Word Game</h1>
+<div class="wrapper">
+  <h1>The Ultimate Word Game</h1>
   <form novalidate class="form-group">
     <label>
       <input ng-model="newWord" class="form-control" type="text" placeholder="type new word" required>
     </label>
     <button ng-click="saveWord(newWord)" class="btn btn-default">Add word</button>
   </form>
-  <div>{{notification}}</div>
-  <div>{{error}}</div>
-  <a ui-sref="highscores">Check highscores</a>
+  <div class="notification">{{notification}}</div>
+  <div class="notification">{{error}}</div>
+  <a ui-sref="highscores" class="btn btn-default btn-lg active highscores-btn">Check highscores</a>
 </div>

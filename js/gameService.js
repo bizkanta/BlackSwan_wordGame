@@ -52,10 +52,6 @@ app.service('GameService', ['$http', 'GameSavingService', function($http, gameSa
     this.highscores = gameSavingService.loadGame() || [];
   };
 
-  // this.getEmptyBoard = function() {
-  //   this.highscores = [];
-  // }
-
   this.clearGame = function() {
     gameSavingService.clearGame();
   }

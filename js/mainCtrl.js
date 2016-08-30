@@ -11,14 +11,14 @@ app.controller('MainCtrl', ['$scope', 'GameService', function($scope, gameServic
     if (isInDict && !isSaved) {
       var score = gameService.getScore(word);
       gameService.highscores.push({word: word, score: score});
-      $scope.notification = $scope.newWord + ' is valid, good job! You get ' + score + ' for this word!'
+      $scope.notification = $scope.newWord + ' is valid, good job! You get ' + score + ' points for this word!'
       $scope.error = null;
       $scope.newWord = '';
       gameService.saveGame();
     } else if (!isInDict) {
-      $scope.error = 'word is not in dictionary';
+      $scope.error = 'this word is not in the dictionary!';
     } else if (isSaved) {
-      $scope.error = 'you already have found this word';
+      $scope.error = 'you already have found this word!';
     }
   }
 }])
