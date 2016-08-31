@@ -2,6 +2,8 @@
 
 ### I made my word game application with the help of Angular JS.
 
+### If you want to play click [HERE](http://bizkanta.github.io/word-game/#/)
+
 ### The game requests a word from the user:
 - Checks, if the given word is on the list (if not, then notifies the user to type in a new one).
 - It counts the unique letters within the word. The number of them is the score of the word. At this point, it notifies the user, that he/she got X points.
