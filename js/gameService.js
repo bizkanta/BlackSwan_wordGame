@@ -27,13 +27,13 @@ app.service('GameService', ['$http', 'GameSavingService', function($http, gameSa
 
   this.countUniqueLetters = function(word) {
     Object.size = function(obj) {
-    var size = 0;
-    for(var key in obj) {
-      if(obj.hasOwnProperty(key)) {
-        size++;
+      var size = 0;
+      for(var key in obj) {
+        if(obj.hasOwnProperty(key)) {
+          size++;
+        }
       }
-    }
-    return size;
+      return size;
     }
 
     var letters = new Object;
